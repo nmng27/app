@@ -41,7 +41,7 @@ import java.time.LocalTime
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Header(txt:String) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxWidth()) {
         Row(modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)

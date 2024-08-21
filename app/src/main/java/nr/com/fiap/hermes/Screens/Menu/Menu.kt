@@ -18,6 +18,9 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -30,51 +33,37 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import nr.com.fiap.hermes.Comps.ItemMenu.ItemMenu
 import nr.com.fiap.hermes.R
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @Composable
 fun Menu() {
-    Column {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            Image(painter = painterResource(id = R.drawable.designer), contentDescription = "Logo",
-                modifier = Modifier.size(35.dp))
-            Text(text = "Hermes", fontFamily = FontFamily.Serif, color = Color(0xfff8B4513), fontWeight = FontWeight.Bold)
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.Close, contentDescription = "", tint = Color(0xfff8B4513))
+    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
+
+        Column {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Image(painter = painterResource(id = R.drawable.designer), contentDescription = "Logo",
+                    modifier = Modifier.size(35.dp))
+                Text(text = "Hermes", fontFamily = FontFamily.Serif, color = Color(0xfff8B4513), fontWeight = FontWeight.Bold)
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(imageVector = Icons.Default.Close, contentDescription = "", tint = Color(0xfff8B4513))
+                }
             }
+            ItemMenu(Icone = Icons.Default.Person, txt = "Meu Perfil")
+            ItemMenu(Icone = Icons.Default.Home, txt = "Inbox")
+            ItemMenu(Icone = Icons.Default.Email, txt = "Sends")
+            ItemMenu(Icone = Icons.Default.Delete, txt = "Deleted")
+            ItemMenu(Icone = Icons.Default.Build, txt = "Spam")
+            ItemMenu(Icone = Icons.Default.Settings, txt = "Preferências")
         }
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.Person, contentDescription = "pessoa",tint = Color(R.drawable.designer))
+
+        Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End) {
+            Button(onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(Color(0xfff8B4513))) {
+                Text(text = "Novo Email")
             }
-            Text(text = "Meu Perfil", fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, color = Color(0xfff8B4513))
-        }
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.Home, contentDescription = "pessoa",tint = Color(0xfff8B4513))
-            }
-            Text(text = "Inbox",fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, color = Color(0xfff8B4513))
-        }
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.Email, contentDescription = "pessoa",tint = Color(0xfff8B4513))
-            }
-            Text(text = "Sends",fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, color = Color(0xfff8B4513))
-        }
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.Delete, contentDescription = "pessoa",tint = Color(0xfff8B4513))
-            }
-            Text(text = "Deleted",fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, color = Color(0xfff8B4513))
-        }
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.Build, contentDescription = "pessoa",tint = Color(0xfff8B4513))
-            }
-            Text(text = "Spam",fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, color = Color(0xfff8B4513))
         }
 
     }

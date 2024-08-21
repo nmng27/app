@@ -31,6 +31,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nr.com.fiap.hermes.Comps.Botao.Botao
+import nr.com.fiap.hermes.Comps.Input.Input
 import nr.com.fiap.hermes.R
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
@@ -51,29 +53,17 @@ fun Login() {
             fontWeight = FontWeight.Bold,
             color = Color(0xfff8B4513)
         )
-        TextField(value = email,
-            onValueChange = {email = it},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            label = {
-                Text(text = "E-mail", fontFamily = FontFamily.Serif)
-            }, placeholder = {
-                Text(text = "Digite o seu email",fontFamily = FontFamily.Serif)
-            }, shape = CircleShape)
-        TextField(value = senha,
-            onValueChange = {senha = it},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            label = {
-                Text(text = "Senha",fontFamily = FontFamily.Serif)
-            }, placeholder = {
-                Text(text = "Digite a sua senha",fontFamily = FontFamily.Serif)
-            }, shape = CircleShape, keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password))
-        Button(onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(Color(0xfffFF8B4513))) {
-            Text(text = "Entrar")
-        }
+        Input(valor = email,
+            funcao = {email = it},
+            placeholder = "Digite o seu e-mail",
+            label = "E-mail",
+            keyBoard = KeyboardType.Email)
+        Input(valor = senha,
+            funcao = {senha = it},
+            placeholder = "Digite a sua senha",
+            label = "Senha",
+            keyBoard = KeyboardType.Password)
+       Botao(funcao = { /*TODO*/ }, txt = "Entrar")
         TextButton(onClick = { /*TODO*/ }) {
             Text(text = "Cadastrar", fontSize = 20.sp,
                 fontFamily = FontFamily.Serif,

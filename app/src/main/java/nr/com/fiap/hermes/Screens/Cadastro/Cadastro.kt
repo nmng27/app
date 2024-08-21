@@ -11,8 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -30,6 +34,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import nr.com.fiap.hermes.Comps.Input.Input
 import nr.com.fiap.hermes.Models.Email
 import nr.com.fiap.hermes.Models.Usuario
 import nr.com.fiap.hermes.R
@@ -62,59 +67,32 @@ fun Cadastro() {
             fontWeight = FontWeight.Bold,
             color = Color(0xfff8B4513)
         )
-        TextField(value = nome,
-            onValueChange = {nome = it},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            label = {
-                Text(text = "Nome", fontFamily = FontFamily.Serif)
-            }, placeholder = {
-                Text(text = "Digite o seu nome",fontFamily = FontFamily.Serif)
-            }, shape = CircleShape
-        )
-        TextField(value = email,
-            onValueChange = {email = it},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            label = {
-                Text(text = "E-mail", fontFamily = FontFamily.Serif)
-            }, placeholder = {
-                Text(text = "Digite o seu email",fontFamily = FontFamily.Serif)
-            }, shape = CircleShape)
-        TextField(value = telefone,
-            onValueChange = {telefone = it},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            label = {
-                Text(text = "Telefone", fontFamily = FontFamily.Serif)
-            }, placeholder = {
-                Text(text = "Digite o seu telefone",fontFamily = FontFamily.Serif)
-            }, shape = CircleShape)
-        TextField(value = endereco,
-            onValueChange = {endereco = it},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            label = {
-                Text(text = "Endereço", fontFamily = FontFamily.Serif)
-            }, placeholder = {
-                Text(text = "Digite o seu endereço",fontFamily = FontFamily.Serif)
-            }, shape = CircleShape)
+        Input(valor = nome,
+            funcao = {nome = it},
+            placeholder = "Digite o seu nome",
+            label = "Nome",
+            keyBoard = KeyboardType.Text)
 
-        TextField(value = senha,
-            onValueChange = {senha = it},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            label = {
-                Text(text = "Senha", fontFamily = FontFamily.Serif)
-            }, placeholder = {
-                Text(text = "Digite a sua senha",fontFamily = FontFamily.Serif)
-            }, shape = CircleShape,
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password))
+        Input(valor = email,
+            funcao = {email = it},
+            placeholder = "Digite o seu e-mail",
+            label = "E-mail",
+            keyBoard = KeyboardType.Email)
+        Input(valor = telefone,
+            funcao = {telefone = it},
+            placeholder = "Digite o seu telefone",
+            label = "Telefone",
+            keyBoard = KeyboardType.Phone)
+       Input(valor = endereco,
+           funcao = {endereco = it},
+           placeholder = "Digite o seu endereço",
+           label = "Endereço",
+           keyBoard = KeyboardType.Text)
+        Input(valor = senha,
+            funcao = {senha = it},
+            placeholder = "Digite a sua senha",
+            label = "Senha",
+            keyBoard = KeyboardType.Password)
         Button(onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(Color(0xfffFF8B4513))) {
             Text(text = "Entrar")
         }
