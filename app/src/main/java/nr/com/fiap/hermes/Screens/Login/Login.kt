@@ -75,7 +75,10 @@ fun Login() {
             Text(text = "Entrar")
         }
         TextButton(onClick = { /*TODO*/ }) {
-            Text(text = "Cadastrar", fontSize = 20.sp, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, color = Color(0xfff8B4513))
+            Text(text = "Cadastrar", fontSize = 20.sp,
+                fontFamily = FontFamily.Serif,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xfff8B4513))
         }
 
     }
