@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nr.com.fiap.hermes.Comps.Cards.Cards
 import nr.com.fiap.hermes.Comps.Header.Header
+import nr.com.fiap.hermes.Lists.gerandoListaInbox
 //import nr.com.fiap.hermes.Lists.gerandoListaMockadaEmail
 import nr.com.fiap.hermes.Models.Email
 import nr.com.fiap.hermes.R
@@ -39,20 +40,14 @@ import java.time.LocalTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Inbox() {
+fun Inbox(email: Email) {
     Column(modifier = Modifier.fillMaxSize()) {
         Header(txt = "Inbox")
 
 
 
+
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(showSystemUi = true)
-@Composable
-private fun InboxPreview() {
-    HermesTheme {
-        Inbox()
-    }
-}
+
