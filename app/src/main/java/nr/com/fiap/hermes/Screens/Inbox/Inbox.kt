@@ -40,7 +40,7 @@ import java.time.LocalTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Inbox(email: Email) {
+fun Inbox() {
     Column(modifier = Modifier.fillMaxSize()) {
         Header(txt = "Inbox")
 

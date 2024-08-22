@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
@@ -53,6 +54,7 @@ fun Menu() {
                 }
             }
             ItemMenu(Icone = Icons.Default.Person, txt = "Meu Perfil")
+            ItemMenu(Icone = Icons.Default.DateRange, txt = "Meus Eventos")
             ItemMenu(Icone = Icons.Default.Home, txt = "Inbox")
             ItemMenu(Icone = Icons.Default.Email, txt = "Sends")
             ItemMenu(Icone = Icons.Default.Delete, txt = "Deleted")
