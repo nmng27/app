@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nr.com.fiap.hermes.Comps.Header.Header
+import nr.com.fiap.hermes.Comps.ListaEmails.ListaEmails
 import nr.com.fiap.hermes.R
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
@@ -37,6 +38,7 @@ import nr.com.fiap.hermes.ui.theme.HermesTheme
 fun Excluidos() {
     Column(modifier = Modifier.fillMaxSize()) {
        Header(txt = "Deleted")
+        ListaEmails()
 
 
 

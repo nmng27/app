@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nr.com.fiap.hermes.Comps.Header.Header
+import nr.com.fiap.hermes.Comps.ListaEventos.ListaEventos
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 import java.time.LocalDate
 
@@ -24,8 +25,12 @@ fun Eventos() {
     var mes = LocalDate.now().month
     Column {
         Header(txt = "Meus Eventos")
-        Column(modifier = Modifier.fillMaxWidth() .padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = "$mes", fontSize = 30.sp, fontFamily = FontFamily.Serif, color = Color(0xfff8B4513))
+            ListaEventos()
         }
     }
 

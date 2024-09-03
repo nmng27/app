@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import nr.com.fiap.hermes.Comps.Header.Header
+import nr.com.fiap.hermes.Comps.ListaEmails.ListaEmails
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -14,6 +15,7 @@ import nr.com.fiap.hermes.ui.theme.HermesTheme
 fun Favoritos() {
     Column {
         Header(txt = "Favoritos")
+        ListaEmails()
     }
 }
 
