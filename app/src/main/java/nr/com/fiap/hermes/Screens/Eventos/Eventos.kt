@@ -2,8 +2,11 @@ package nr.com.fiap.hermes.Screens.Eventos
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,22 +21,20 @@ import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Comps.ListaEventos.ListaEventos
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 import java.time.LocalDate
+import java.time.LocalTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Eventos() {
-    var mes = LocalDate.now().month
-    Column {
-        Header(txt = "Meus Eventos")
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "$mes", fontSize = 30.sp, fontFamily = FontFamily.Serif, color = Color(0xfff8B4513))
-            ListaEventos()
-        }
-    }
+    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Header(txt = "Eventos")
+        Text(text = "${LocalDate.now().month}",
+            fontSize = 30.sp,
+            fontFamily = FontFamily.Serif,
+            color = Color(0xfff8B4513), modifier = Modifier.padding(12.dp))
+        ListaEventos()
 
+    }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
