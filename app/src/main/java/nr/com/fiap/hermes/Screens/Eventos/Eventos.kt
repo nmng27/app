@@ -27,7 +27,8 @@ import java.time.LocalTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Eventos(navController: NavController) {
+fun Eventos(navController: NavController,cor_pref:Boolean) {
+    val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Header(txt = "Eventos")
         Text(text = "${LocalDate.now().month}",
@@ -45,6 +46,6 @@ fun Eventos(navController: NavController) {
 private fun EventosPreview() {
     HermesTheme {
         var navController = rememberNavController()
-        Eventos(navController = navController)
+        Eventos(navController = navController,true)
     }
 }

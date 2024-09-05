@@ -36,8 +36,9 @@ import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Enviados(navController: NavController) {
-    Column(modifier = Modifier.fillMaxSize()) {
+fun Enviados(navController: NavController,cor_pref:Boolean) {
+    val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
+    Column(modifier = Modifier.fillMaxSize() .background(corPrimaria)) {
         Header(txt = "Sends")
         ListaEmails()
 
@@ -50,6 +51,6 @@ fun Enviados(navController: NavController) {
 private fun EnviadosPreview() {
     HermesTheme {
         var navController = rememberNavController()
-        Enviados(navController)
+        Enviados(navController,true)
     }
 }

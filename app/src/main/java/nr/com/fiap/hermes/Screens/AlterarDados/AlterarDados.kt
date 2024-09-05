@@ -2,11 +2,17 @@ package nr.com.fiap.hermes.Screens.AlterarDados
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -18,21 +24,33 @@ import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AlterarDados(navController: NavController) {
-    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+fun AlterarDados(navController: NavController,cor_pref:Boolean) {
+    var telefone by remember {
+        mutableStateOf("")
+    }
+    var endereco by remember {
+        mutableStateOf("")
+    }
+    var senha by remember {
+        mutableStateOf("")
+    }
+    val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(corPrimaria), horizontalAlignment = Alignment.CenterHorizontally) {
         Header(txt = "Alterar Dados")
-        Input(valor = "",
-            funcao = {},
+        Input(valor = telefone,
+            funcao = {telefone = it},
             placeholder = "Digite o seu telefone",
             label = "Telefone",
             keyBoard = KeyboardType.Phone)
-        Input(valor = "",
-            funcao = {},
+        Input(valor = endereco,
+            funcao = {endereco = it},
             placeholder = "Digite o seu endereço",
             label = "Endereço",
             keyBoard = KeyboardType.Text)
-        Input(valor = "",
-            funcao = {},
+        Input(valor = senha,
+            funcao = {senha = it},
             placeholder = "Digite a sua senha",
             label = "Senha",
             keyBoard = KeyboardType.Password)
@@ -45,6 +63,6 @@ fun AlterarDados(navController: NavController) {
 private fun AlterarDadosPreview() {
     HermesTheme {
         var navController = rememberNavController()
-        AlterarDados(navController)
+        AlterarDados(navController,true)
     }
 }

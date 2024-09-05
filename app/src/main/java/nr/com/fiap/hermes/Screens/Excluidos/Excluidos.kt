@@ -37,8 +37,10 @@ import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Excluidos(navController: NavController) {
-    Column(modifier = Modifier.fillMaxSize()) {
+fun Excluidos(navController: NavController,cor_pref:Boolean) {
+    val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
+
+    Column(modifier = Modifier.fillMaxSize() .background(corPrimaria)) {
        Header(txt = "Deleted")
         ListaEmails()
 
@@ -55,6 +57,6 @@ fun Excluidos(navController: NavController) {
 private fun InboxPreview() {
     HermesTheme {
         var navController = rememberNavController()
-        Excluidos(navController)
+        Excluidos(navController,true)
     }
 }

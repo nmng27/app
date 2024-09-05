@@ -36,8 +36,9 @@ import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Spam(navController: NavController) {
-    Column(modifier = Modifier.fillMaxSize()) {
+fun Spam(navController: NavController,cor_pref:Boolean) {
+    val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
+    Column(modifier = Modifier.fillMaxSize() .background(corPrimaria)) {
         Header(txt = "Spam")
         ListaEmails()
 
@@ -54,6 +55,6 @@ fun Spam(navController: NavController) {
 private fun SpamPreview() {
     HermesTheme {
         var navController = rememberNavController()
-        Spam(navController)
+        Spam(navController,true)
     }
 }

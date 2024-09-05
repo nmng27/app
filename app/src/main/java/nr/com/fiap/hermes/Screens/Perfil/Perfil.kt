@@ -2,6 +2,7 @@ package nr.com.fiap.hermes.Screens.Perfil
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -25,8 +26,10 @@ import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Perfil(usuario: Usuario,navController: NavController) {
-    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+fun Perfil(usuario: Usuario,navController: NavController,cor_pref:Boolean) {
+    val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
+    Column(modifier = Modifier.fillMaxSize()
+        .background(corPrimaria), horizontalAlignment = Alignment.CenterHorizontally) {
         Header(txt = "Meu Perfil")
         Text(text = usuario.nome,
             fontSize = 30.sp,
@@ -74,6 +77,6 @@ private fun PerfilPreview() {
             "mangussinicholas@hermes.com",
             "t1",
             "e1",
-            "pwd"),navController)
+            "pwd"),navController,true)
     }
 }

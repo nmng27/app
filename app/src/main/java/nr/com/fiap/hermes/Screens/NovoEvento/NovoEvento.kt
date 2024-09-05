@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -23,7 +24,7 @@ import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun NovoEvento(navController: NavController) {
+fun NovoEvento(navController: NavController,cor_pref:Boolean) {
     var nome by remember {
         mutableStateOf("")
     }
@@ -33,7 +34,7 @@ fun NovoEvento(navController: NavController) {
     var hora by remember {
         mutableStateOf("")
     }
-
+    val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Header(txt = "Novo Evento")
         Input(valor = nome,
@@ -59,6 +60,6 @@ fun NovoEvento(navController: NavController) {
 @Composable
 private fun NovoEventoPreview() {
     HermesTheme {
-        NovoEvento(navController = rememberNavController())
+        NovoEvento(navController = rememberNavController(),true)
     }
 }

@@ -2,6 +2,7 @@ package nr.com.fiap.hermes.Screens.NovoEmail
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
@@ -27,7 +28,7 @@ import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun NovoEmail(navController: NavController) {
+fun NovoEmail(navController: NavController,cor_pref:Boolean) {
     var destinatario by remember {
         mutableStateOf("")
     }
@@ -37,7 +38,12 @@ fun NovoEmail(navController: NavController) {
     var corpo by remember {
         mutableStateOf("")
     }
-    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+    val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
+
+    Column(modifier = Modifier.fillMaxSize()
+        .background(corPrimaria),
+        horizontalAlignment = Alignment.CenterHorizontally) {
+
         Header(txt = "Novo Email")
         Input(valor = destinatario,
             funcao = {destinatario = it},
@@ -66,6 +72,6 @@ fun NovoEmail(navController: NavController) {
 private fun NovoEmailPreview() {
     HermesTheme {
         var navController = rememberNavController()
-        NovoEmail(navController)
+        NovoEmail(navController,true)
     }
 }

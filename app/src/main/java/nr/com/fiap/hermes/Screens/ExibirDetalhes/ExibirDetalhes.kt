@@ -2,6 +2,7 @@ package nr.com.fiap.hermes.Screens.ExibirDetalhes
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,41 +29,58 @@ import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ExibirDetalhes(email: Email,navController: NavController) {
-    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
-        Column {
-            Header(txt = "Details")
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(text = email.remetente,
-                    fontSize = 30.sp,
-                    fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xfff8B4513)
-                )
-                Spacer(modifier = Modifier.height(5.dp))
-                Text(text = email.assunto,
-                    fontSize = 25.sp,
-                    fontFamily = FontFamily.Serif,
-                    color = Color(0xfff8B4513))
-                Spacer(modifier = Modifier.height(5.dp))
-                Text(text = email.corpo)
+fun ExibirDetalhes(email: Email, navController: NavController, cor_pref: Boolean) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(corPrimaria),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column {
+                Header(txt = "Details")
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = email.remetente,
+                        fontSize = 30.sp,
+                        fontFamily = FontFamily.Serif,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xfff8B4513)
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Text(
+                        text = email.assunto,
+                        fontSize = 25.sp,
+                        fontFamily = FontFamily.Serif,
+                        color = Color(0xfff8B4513)
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Text(text = email.corpo)
+                }
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                Botao(funcao = { /* TODO */ }, txt = "Responder")
+                Botao(funcao = { /* TODO */ }, txt = "Favoritar")
+                Botao(funcao = { /* TODO */ }, txt = "Excluir")
             }
         }
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
-            Botao(funcao = { /*TODO*/ }, txt = "Responder")
-            Botao(funcao = { /*TODO*/ }, txt = "Favoritar")
-            Botao(funcao = { /*TODO*/ }, txt = "Excluir")
-        }
-
     }
 }
 
-var email = Email(1,1,"teste","teste","inbox","teste","teste")
+var email = Email(1, 1, "teste", "teste", "inbox", "teste", "teste")
+
 @Preview(showSystemUi = true)
 @Composable
 private fun ExibirDetalhesPreview() {
     HermesTheme {
-        var navController = rememberNavController()
-        ExibirDetalhes(email = email, navController = navController)
+        val navController = rememberNavController()
+        ExibirDetalhes(email = email, navController = navController, cor_pref = true)
     }
 }
