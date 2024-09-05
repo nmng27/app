@@ -16,6 +16,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import nr.com.fiap.hermes.Screens.Cadastro.Cadastro
+import nr.com.fiap.hermes.Screens.Login.Login
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 class MainActivity : ComponentActivity() {
@@ -28,12 +30,13 @@ class MainActivity : ComponentActivity() {
                     // criando o valor que armazene navegação
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = "login"){
-                        composable(route = "/login") {  }
-                        composable(route = "/cadastro") {  }
+                        composable(route = "/login") { Login(navController = navController) }
+                        composable(route = "/cadastro") { Cadastro(navController = navController) }
                         composable(route="/inbox") {  }
                         composable(route = "/enviados") {  }
                         composable(route = "/excluidos") {  }
                         composable(route = "/spam") {  }
+                        composable(route = "/favoritos") {  }
                         composable(route = "/exibirDetalhes") {  }
                         composable(route = "/novoEmail") {  }
                         composable(route = "/eventos") {  }

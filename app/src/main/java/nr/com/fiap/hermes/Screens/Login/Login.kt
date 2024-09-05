@@ -1,5 +1,6 @@
 package nr.com.fiap.hermes.Screens.Login
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -33,8 +35,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import androidx.room.processor.Context
 import nr.com.fiap.hermes.Comps.Botao.Botao
 import nr.com.fiap.hermes.Comps.Input.Input
+import nr.com.fiap.hermes.Database.Repository.UsuarioRepository
 import nr.com.fiap.hermes.R
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
@@ -46,6 +50,8 @@ fun Login(navController: NavController) {
     var senha by remember {
         mutableStateOf("")
     }
+    val context = LocalContext.current
+    val usuarioRepository = UsuarioRepository(context)
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         Image(painter = painterResource(id = R.drawable.designer), contentDescription = "Logo da Hermes", modifier = Modifier.size(200.dp))
         Spacer(modifier = Modifier.height(20.dp))
@@ -65,8 +71,21 @@ fun Login(navController: NavController) {
             placeholder = "Digite a sua senha",
             label = "Senha",
             keyBoard = KeyboardType.Password)
-       Botao(funcao = {}, txt = "Entrar")
-        TextButton(onClick = { /*TODO*/ }) {
+       Botao(funcao = {
+           try{
+               usuarioRepository.logar(email,senha)
+               navController.navigate("/inbox")
+           }
+           catch (e:Exception){
+               e.printStackTrace() // Para logar o erro
+               // Aqui você pode lidar com o erro da forma que preferir
+               // Por exemplo, mostrar uma mensagem de erro:
+               Toast.makeText(context, "Erro ao cadastrar usuário", Toast.LENGTH_LONG).show()
+           }
+       }, txt = "Entrar")
+        TextButton(onClick = {
+            navController.navigate("/cadastro")
+        }) {
             Text(text = "Cadastrar", fontSize = 20.sp,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Bold,
