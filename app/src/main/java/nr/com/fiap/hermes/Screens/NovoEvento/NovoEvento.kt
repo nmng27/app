@@ -13,6 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import nr.com.fiap.hermes.Comps.Botao.Botao
 import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Comps.Input.Input
@@ -21,7 +23,7 @@ import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun NovoEvento() {
+fun NovoEvento(navController: NavController) {
     var nome by remember {
         mutableStateOf("")
     }
@@ -57,6 +59,6 @@ fun NovoEvento() {
 @Composable
 private fun NovoEventoPreview() {
     HermesTheme {
-        NovoEvento()
+        NovoEvento(navController = rememberNavController())
     }
 }

@@ -19,6 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import nr.com.fiap.hermes.Comps.Botao.Botao
 import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Models.Email
@@ -26,7 +28,7 @@ import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ExibirDetalhes(email: Email) {
+fun ExibirDetalhes(email: Email,navController: NavController) {
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
         Column {
             Header(txt = "Details")
@@ -55,3 +57,12 @@ fun ExibirDetalhes(email: Email) {
     }
 }
 
+var email = Email(1,1,"teste","teste","inbox","teste","teste")
+@Preview(showSystemUi = true)
+@Composable
+private fun ExibirDetalhesPreview() {
+    HermesTheme {
+        var navController = rememberNavController()
+        ExibirDetalhes(email = email, navController = navController)
+    }
+}

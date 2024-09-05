@@ -31,13 +31,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import nr.com.fiap.hermes.Comps.Botao.Botao
 import nr.com.fiap.hermes.Comps.Input.Input
 import nr.com.fiap.hermes.R
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @Composable
-fun Login() {
+fun Login(navController: NavController) {
     var email by remember {
         mutableStateOf("")
     }
@@ -63,7 +65,7 @@ fun Login() {
             placeholder = "Digite a sua senha",
             label = "Senha",
             keyBoard = KeyboardType.Password)
-       Botao(funcao = { /*TODO*/ }, txt = "Entrar")
+       Botao(funcao = {}, txt = "Entrar")
         TextButton(onClick = { /*TODO*/ }) {
             Text(text = "Cadastrar", fontSize = 20.sp,
                 fontFamily = FontFamily.Serif,
@@ -79,6 +81,7 @@ fun Login() {
 @Composable
 private fun LoginPreview() {
     HermesTheme {
-        Login()
+        var navController = rememberNavController()
+        Login(navController)
     }
 }

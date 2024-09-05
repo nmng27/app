@@ -6,11 +6,16 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +24,26 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HermesTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                    // criando o valor que armazene navegação
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = "login"){
+                        composable(route = "/login") {  }
+                        composable(route = "/cadastro") {  }
+                        composable(route="/inbox") {  }
+                        composable(route = "/enviados") {  }
+                        composable(route = "/excluidos") {  }
+                        composable(route = "/spam") {  }
+                        composable(route = "/exibirDetalhes") {  }
+                        composable(route = "/novoEmail") {  }
+                        composable(route = "/eventos") {  }
+                        composable(route = "/novoEvento") {  }
+                        composable(route = "/exibirEventos") {  }
+                        composable(route = "/menu") {  }
+                    }
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    HermesTheme {
-        Greeting("Android")
-    }
-}

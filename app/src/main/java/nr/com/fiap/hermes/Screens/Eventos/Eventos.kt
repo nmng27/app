@@ -17,6 +17,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Comps.ListaEventos.ListaEventos
 import nr.com.fiap.hermes.ui.theme.HermesTheme
@@ -25,7 +27,7 @@ import java.time.LocalTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Eventos() {
+fun Eventos(navController: NavController) {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Header(txt = "Eventos")
         Text(text = "${LocalDate.now().month}",
@@ -42,6 +44,7 @@ fun Eventos() {
 @Composable
 private fun EventosPreview() {
     HermesTheme {
-        Eventos()
+        var navController = rememberNavController()
+        Eventos(navController = navController)
     }
 }

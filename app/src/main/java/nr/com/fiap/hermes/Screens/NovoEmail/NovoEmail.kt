@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import nr.com.fiap.hermes.Comps.Botao.Botao
 import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Comps.Input.Input
@@ -25,7 +27,7 @@ import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun NovoEmail() {
+fun NovoEmail(navController: NavController) {
     var destinatario by remember {
         mutableStateOf("")
     }
@@ -63,6 +65,7 @@ fun NovoEmail() {
 @Composable
 private fun NovoEmailPreview() {
     HermesTheme {
-        NovoEmail()
+        var navController = rememberNavController()
+        NovoEmail(navController)
     }
 }

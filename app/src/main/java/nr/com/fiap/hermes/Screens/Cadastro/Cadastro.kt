@@ -34,6 +34,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import nr.com.fiap.hermes.Comps.Input.Input
 import nr.com.fiap.hermes.Models.Email
 import nr.com.fiap.hermes.Models.Usuario
@@ -41,7 +43,7 @@ import nr.com.fiap.hermes.R
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @Composable
-fun Cadastro() {
+fun Cadastro(navController: NavController) {
     var nome by remember {
         mutableStateOf("")
     }
@@ -104,6 +106,7 @@ fun Cadastro() {
 @Composable
 private fun CadastroPreview() {
     HermesTheme {
-        Cadastro()
+        var navController = rememberNavController()
+        Cadastro(navController)
     }
 }

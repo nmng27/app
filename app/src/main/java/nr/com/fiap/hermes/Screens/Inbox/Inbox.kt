@@ -29,6 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import nr.com.fiap.hermes.Comps.Cards.Cards
 import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Comps.ListaEmails.ListaEmails
@@ -40,7 +42,7 @@ import java.time.LocalTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Inbox() {
+fun Inbox(navController: NavController) {
     Column(modifier = Modifier.fillMaxSize()) {
         Header(txt = "Inbox")
         ListaEmails()
@@ -55,7 +57,8 @@ fun Inbox() {
 @Composable
 private fun InboxPreview() {
     HermesTheme {
-        Inbox()
+        var navController = rememberNavController()
+        Inbox(navController)
     }
 }
 
