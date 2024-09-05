@@ -7,19 +7,19 @@ import nr.com.fiap.hermes.Models.Usuario
 class UsuarioRepository(context: Context) {
     private val db = UsuarioDb.getDatabase(context).usuarioDao()
 
-    fun cadastrar(usuario: Usuario) {
-        db.cadastrar(usuario)
+    fun cadastrar(usuario: Usuario):Long {
+        return db.cadastrar(usuario)
     }
 
-    fun atualizar(usuario: Usuario, id: Int) {
-        db.atualizar(usuario, id)
+    fun atualizar(usuario: Usuario, id: Int):Int {
+        return db.atualizar(usuario)
     }
 
-    fun deletar(id: Int) {
-        db.deletar(id)
+    fun deletar(usuario: Usuario):Int {
+        return db.deletar(usuario)
     }
 
-    fun logar(email: String, senha: String) {
-        db.login(email, senha)
+    fun logar(email: String, senha: String):Usuario {
+        return db.login(email, senha)
     }
 }
