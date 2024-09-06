@@ -39,7 +39,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import nr.com.fiap.hermes.Comps.Input.Input
-import nr.com.fiap.hermes.Database.Repository.UsuarioRepository
 import nr.com.fiap.hermes.Models.Email
 import nr.com.fiap.hermes.Models.Usuario
 import nr.com.fiap.hermes.R
@@ -47,8 +46,6 @@ import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @Composable
 fun Cadastro(navController: NavController) {
-    val context = LocalContext.current
-    val usuarioRepository = UsuarioRepository(context)
     var nome by remember {
         mutableStateOf("")
     }
@@ -100,7 +97,7 @@ fun Cadastro(navController: NavController) {
             placeholder = "Digite a sua senha",
             label = "Senha",
             keyBoard = KeyboardType.Password)
-        Button(onClick = {try {
+        Button(onClick = {
             val novoUsuario = Usuario(
                 id = 1,
                 nome = nome,
@@ -109,14 +106,7 @@ fun Cadastro(navController: NavController) {
                 endereco = endereco,
                 senha = senha
             )
-            usuarioRepository.cadastrar(novoUsuario)
-            navController.navigate("inbox")
-        } catch (e: Exception) {
-            e.printStackTrace() // Para logar o erro
-            // Aqui você pode lidar com o erro da forma que preferir
-            // Por exemplo, mostrar uma mensagem de erro:
-            Toast.makeText(context, "Erro ao cadastrar usuário", Toast.LENGTH_LONG).show()
-        }
+
         }, colors = ButtonDefaults.buttonColors(Color(0xfffFF8B4513))) {
             Text(text = "Entrar")
         }
