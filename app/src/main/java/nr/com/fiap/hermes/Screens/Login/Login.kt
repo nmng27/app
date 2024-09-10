@@ -38,6 +38,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.room.processor.Context
 import nr.com.fiap.hermes.Comps.Botao.Botao
 import nr.com.fiap.hermes.Comps.Input.Input
+import nr.com.fiap.hermes.Models.Usuario
 import nr.com.fiap.hermes.R
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
@@ -49,6 +50,7 @@ fun Login(navController: NavController) {
     var senha by remember {
         mutableStateOf("")
     }
+    
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         Image(painter = painterResource(id = R.drawable.designer), contentDescription = "Logo da Hermes", modifier = Modifier.size(200.dp))
         Spacer(modifier = Modifier.height(20.dp))

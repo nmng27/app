@@ -28,7 +28,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -38,14 +37,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import nr.com.fiap.hermes.Comps.Botao.Botao
 import nr.com.fiap.hermes.Comps.Input.Input
-import nr.com.fiap.hermes.Models.Email
 import nr.com.fiap.hermes.Models.Usuario
 import nr.com.fiap.hermes.R
+import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
 import nr.com.fiap.hermes.ui.theme.HermesTheme
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Call
+import androidx.compose.ui.platform.LocalContext
+
 
 @Composable
 fun Cadastro(navController: NavController) {
+
+    val context = LocalContext.current
     var nome by remember {
         mutableStateOf("")
     }
@@ -60,6 +67,31 @@ fun Cadastro(navController: NavController) {
     }
     var senha by remember {
         mutableStateOf("")
+    }
+    var navegarParaInbox by remember {
+        mutableStateOf(true)
+    }
+    fun getUser():Usuario{
+        val usuario = Usuario(0,nome,email,telefone,endereco,senha)
+        return usuario
+    }
+    fun cadastrarUsuario(usuario: Usuario) {
+        val retrofitFactory = RetrofitFactory()
+        val usuarioService = retrofitFactory.getUsuarioService()
+
+        usuarioService.cadastrar(usuario).enqueue(object : Callback<Usuario> {
+            override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
+                if (response.isSuccessful) {
+
+                    navController.navigate("inbox")
+                }
+            }
+
+
+            override fun onFailure(call: Call<Usuario>, t: Throwable) {
+                Toast.makeText(context, "Falha na requisição: ${t.message}", Toast.LENGTH_LONG).show()
+            }
+        })
     }
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         Image(painter = painterResource(id = R.drawable.designer),
@@ -97,22 +129,13 @@ fun Cadastro(navController: NavController) {
             placeholder = "Digite a sua senha",
             label = "Senha",
             keyBoard = KeyboardType.Password)
-        Button(onClick = {
-            val novoUsuario = Usuario(
-                id = 1,
-                nome = nome,
-                email = email,
-                telefone = telefone,
-                endereco = endereco,
-                senha = senha
-            )
+        Botao(funcao = {
 
-        }, colors = ButtonDefaults.buttonColors(Color(0xfffFF8B4513))) {
-            Text(text = "Entrar")
+
+        }, txt = "Entrar")
         }
     }
 
-}
 
 @Preview(showSystemUi = true)
 @Composable

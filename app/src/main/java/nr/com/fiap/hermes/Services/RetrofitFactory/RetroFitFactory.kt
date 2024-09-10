@@ -1,5 +1,6 @@
 package nr.com.fiap.hermes.Services.RetrofitFactory
 
+import nr.com.fiap.hermes.Models.Usuario
 import nr.com.fiap.hermes.Services.Email.EmailService
 import nr.com.fiap.hermes.Services.Evento.EventoService
 import nr.com.fiap.hermes.Services.Preferencia.PreferenciaService
@@ -8,24 +9,25 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitFactory {
-    private val URL = "http:localhost:5000/api"  // Defina a URL base correta da sua API
-
-    // Instância Retrofit preguiçosa
-    private val retrofit: Retrofit by lazy {
-        Retrofit.Builder()
-            .baseUrl(URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    private val URL = ""
+    private val retrofit = Retrofit.
+                        Builder()
+                            .baseUrl(URL)
+                            .addConverterFactory(GsonConverterFactory.create()).build()
+    fun getUsuarioService():UsuarioService{
+        return retrofit.create(UsuarioService::class.java)
     }
 
-    // Método genérico para criar qualquer serviço
-    fun <T> createService(serviceClass: Class<T>): T {
-        return retrofit.create(serviceClass)
+    fun getEmailService():EmailService{
+        return retrofit.create(EmailService::class.java)
     }
 
-    // Criando os serviços reutilizando a função genérica
-    val usuarioService: UsuarioService = createService(UsuarioService::class.java)
-    val emailService: EmailService = createService(EmailService::class.java)
-    val eventoService: EventoService = createService(EventoService::class.java)
-    val preferenciaService: PreferenciaService = createService(PreferenciaService::class.java)
+    fun getEventoService():EventoService{
+        return retrofit.create(EventoService::class.java)
+    }
+
+    fun getPreferenciaService():PreferenciaService{
+        return retrofit.create(PreferenciaService::class.java)
+
+    }
 }
