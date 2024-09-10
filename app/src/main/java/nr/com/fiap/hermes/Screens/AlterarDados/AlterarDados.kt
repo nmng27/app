@@ -20,11 +20,20 @@ import androidx.navigation.compose.rememberNavController
 import nr.com.fiap.hermes.Comps.Botao.Botao
 import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Comps.Input.Input
+import nr.com.fiap.hermes.Models.Usuario
+import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AlterarDados(navController: NavController,cor_pref:Boolean) {
+    var nome by remember {
+        mutableStateOf("")
+    }
+    var email by remember {
+        mutableStateOf("")
+    }
+    var id = 0
     var telefone by remember {
         mutableStateOf("")
     }
@@ -39,6 +48,16 @@ fun AlterarDados(navController: NavController,cor_pref:Boolean) {
         .fillMaxSize()
         .background(corPrimaria), horizontalAlignment = Alignment.CenterHorizontally) {
         Header(txt = "Alterar Dados")
+        Input(valor = nome,
+            funcao = {nome = it},
+            placeholder = "Digite o seu nome",
+            label = "Nome",
+            keyBoard = KeyboardType.Text)
+        Input(valor = email,
+            funcao = {email = it},
+            placeholder = "Digite o seu email",
+            label = "Email",
+            keyBoard = KeyboardType.Email)
         Input(valor = telefone,
             funcao = {telefone = it},
             placeholder = "Digite o seu telefone",
@@ -54,7 +73,10 @@ fun AlterarDados(navController: NavController,cor_pref:Boolean) {
             placeholder = "Digite a sua senha",
             label = "Senha",
             keyBoard = KeyboardType.Password)
-        Botao(funcao = { navController.navigate("/inbox") }, txt = "Alterar")
+        Botao(funcao = {
+            var novoUsuario = Usuario(id,nome,email,
+                telefone,endereco,senha)
+            navController.navigate("/inbox") }, txt = "Alterar")
     }
 }
 

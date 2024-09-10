@@ -1,5 +1,7 @@
 package nr.com.fiap.hermes.Screens.AddEvento
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -11,10 +13,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import nr.com.fiap.hermes.Comps.Botao.Botao
 import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Comps.Input.Input
 import nr.com.fiap.hermes.Models.Evento
+import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 import java.time.LocalDate
 import java.time.LocalTime
@@ -69,11 +73,15 @@ fun converter_dados(mes:String,dia:String,hora:String,minuto:String,id:Int,usuar
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AddEvento() {
+fun AddEvento(usuario_id: Int,navController: NavController) {
     var nome by remember {
         mutableStateOf("")
     }
+    var mes = LocalDate.now().month
+    var ano = LocalDate.now().year
+    var anoAux = ano.toInt()
     var dia by remember {
         mutableStateOf("")
     }
@@ -83,6 +91,11 @@ fun AddEvento() {
     var minuto by remember {
         mutableStateOf("")
     }
+    var diaAux = dia.toInt()
+    var mesAux = mes.toString()
+    var mesAux2 = mesAux.toInt()
+    var horaAuz = hora.toInt()
+    var minAux = minuto.toInt()
     Column {
         Header(txt = "Add Evento")
         Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -106,15 +119,18 @@ fun AddEvento() {
                 placeholder = "Digite o minuto",
                 label = "Minuto",
                 keyBoard = KeyboardType.Text)
-            Botao(funcao = { /*TODO*/ }, txt = "Add")
+            Botao(funcao = {
+                val eventoService = RetrofitFactory().getEventoService().
+                add(Evento(id = 1,
+                    nome = nome,
+                    dia = diaAux,
+                    mes=mesAux2,
+                    ano = anoAux,
+                    hora = horaAuz,
+                    minuto = minAux,
+                    usuario_id = usuario_id))
+                           navController.navigate("inbox")},
+                txt = "Add")
         }
-    }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-private fun AddEventoPreview() {
-    HermesTheme {
-        AddEvento()
     }
 }

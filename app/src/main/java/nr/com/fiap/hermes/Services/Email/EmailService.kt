@@ -20,5 +20,5 @@ interface EmailService {
     fun listarPorCategoria(@Path("categoria") categoria:String,@Path("usuarioId") usuario_id: Int):List<Email>
 
     @GET("/buscarId/{id}")
-    fun buscarId(@Path("id") id:Int):List<Email>
+    fun buscarId(@Path("id") id:Int):Call<Usuario>
 }

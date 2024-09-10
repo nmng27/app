@@ -1,5 +1,6 @@
 package nr.com.fiap.hermes.Screens.NovoEmail
 
+import EmailViewModel
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
@@ -24,11 +25,13 @@ import nr.com.fiap.hermes.Comps.Botao.Botao
 import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Comps.Input.Input
 import nr.com.fiap.hermes.Comps.TextArea.TextArea
+import nr.com.fiap.hermes.Models.Email
+import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun NovoEmail(navController: NavController,cor_pref:Boolean) {
+fun NovoEmail(navController: NavController,cor_pref:Boolean,usuarioId:Int) {
     var destinatario by remember {
         mutableStateOf("")
     }
@@ -38,6 +41,8 @@ fun NovoEmail(navController: NavController,cor_pref:Boolean) {
     var corpo by remember {
         mutableStateOf("")
     }
+    val viewmodel = EmailViewModel(usuarioId,"")
+    val email = viewmodel.emails
     val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
 
     Column(modifier = Modifier.fillMaxSize()
@@ -60,18 +65,22 @@ fun NovoEmail(navController: NavController,cor_pref:Boolean) {
             label = "Corpo do e-mail",
             placeholder = "Digite a mensagem",
             keyBoard = KeyboardType.Text)
-        Botao(funcao = { /*TODO*/ }, txt = "Enviar")
+        Botao(funcao = {
+            val usuarioService = RetrofitFactory().getEmailService()
+            usuarioService.enviar(Email(
+                id = 0,
+                destinatario = destinatario,
+                remetente = "",
+                assunto = assunto,
+                corpo = corpo,
+                categoria = "Enviados",
+                usuarioId = usuarioId
+            ))
+            navController.navigate("inbox")
+        }, txt = "Enviar")
 
 
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(showSystemUi = true)
-@Composable
-private fun NovoEmailPreview() {
-    HermesTheme {
-        var navController = rememberNavController()
-        NovoEmail(navController,true)
-    }
-}
+
