@@ -22,6 +22,7 @@ import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Comps.Input.Input
 import nr.com.fiap.hermes.Models.Usuario
 import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
+import nr.com.fiap.hermes.ThemeManager
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,7 +30,9 @@ import retrofit2.Response
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AlterarDados(navController: NavController,cor_pref:Boolean,id:Int) {
+fun AlterarDados(navController: NavController,id:Int,themeManager: ThemeManager) {
+    val isDarkTheme = themeManager.isDarkTheme
+
     fun atualizarUsuario(usuario: Usuario,navController: NavController,usuarioLogado:String){
         var call = RetrofitFactory().getUsuarioService().atualizar(usuario,usuario.id)
         call.enqueue(object : Callback<Usuario>{

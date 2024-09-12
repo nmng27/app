@@ -12,8 +12,8 @@ interface PreferenciaService {
     @POST("/preferencias/add")
     fun add(preferencias: Preferencias): Call<Preferencias>
 
-    @PUT("/preferencias/atualizar/{id}")
-    fun upd(@Path("id") id: Int, preferencias: Preferencias): Call<Preferencias>
+    @PUT("/preferencias/atualizar/{id}/{tema}")
+    fun upd(@Path("id") id: Int, @Path("tema") tema:String): Call<Preferencias>
 
     @DELETE("/preferencias/deletar/{id}")
     fun delete(@Path("id") id: Int): Call<Void>

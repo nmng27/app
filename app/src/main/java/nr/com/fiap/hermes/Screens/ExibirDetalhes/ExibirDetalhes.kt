@@ -26,18 +26,20 @@ import nr.com.fiap.hermes.Comps.Botao.Botao
 import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Models.Email
 import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
+import nr.com.fiap.hermes.ThemeManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ExibirDetalhes(id: Int, navController: NavController,usuarioLogado:String) {
+fun ExibirDetalhes(id: Int, navController: NavController,usuarioLogado:String,themeManager:ThemeManager) {
     // Define the state for email details
     var credenciais = RetrofitFactory().getUsuarioService().credenciais(usuarioLogado)
     var email by remember { mutableStateOf<Email?>(null) }
     var isLoading by remember { mutableStateOf(true) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    val isDarkTheme = themeManager.isDarkTheme
 
     // Fetch email details
     LaunchedEffect(id) {

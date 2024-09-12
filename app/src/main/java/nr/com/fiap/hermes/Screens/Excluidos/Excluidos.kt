@@ -14,18 +14,21 @@ import nr.com.fiap.hermes.Comps.Cards.Cards
 import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Models.Email
 import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
+import nr.com.fiap.hermes.ThemeManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Excluidos(navController: NavController,usuarioId:Int) {
+fun Excluidos(navController: NavController,usuarioLogado:String,themeManager:ThemeManager) {
+    val isDarkTheme = themeManager.isDarkTheme
+
     var listaEmails:List<Email> by remember {
         mutableStateOf(listOf<Email>())
     }
 
-    val call = RetrofitFactory().getEmailService().listarPorCategoria("Excluidos",usuarioId)
+    val call = RetrofitFactory().getEmailService().listarPorCategoria("Excluidos",usuarioLogado)
     call.enqueue(
         object : Callback<List<Email>> {
             override fun onResponse(call: Call<List<Email>>, response: Response<List<Email>>) {

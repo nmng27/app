@@ -17,8 +17,8 @@ interface EmailService {
     @GET("/emails/listarPorUsuarioId/{usuarioId}")
     fun listarPorUsuarioId(@Path("usuarioId") usuarioId: Int): Call<List<Email>>
 
-    @GET("/emails/listarPorCategoria/{categoria}/{usuarioId}")
-    fun listarPorCategoria(@Path("categoria") categoria: String, @Path("usuarioId") usuarioId: Int): Call<List<Email>>
+    @GET("/emails/listarPorCategoria/{categoria}/{email}")
+    fun listarPorCategoria(@Path("categoria") categoria: String, @Path("usuarioId") email: String): Call<List<Email>>
 
     @GET("/emails/buscarId/{id}")
     fun buscarId(@Path("id") id: Int): Call<Email>

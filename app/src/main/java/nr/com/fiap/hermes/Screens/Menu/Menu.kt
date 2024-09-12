@@ -20,24 +20,24 @@ import nr.com.fiap.hermes.Comps.Radio.Radio
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @Composable
-fun Menu(navController: NavController) {
+fun Menu(navController: NavController,usuarioLogado:String) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column {
-            HeaderMenu()
-            ItemMenu(Icone = Icons.Default.Person, txt = "Meu Perfil")
-            ItemMenu(Icone = Icons.Default.DateRange, txt = "My Calendar")
-            ItemMenu(Icone = Icons.Default.Home, txt = "Inbox")
-            ItemMenu(Icone = Icons.Default.Email, txt = "Sends")
-            ItemMenu(Icone = Icons.Default.Delete, txt = "Deleted")
-            ItemMenu(Icone = Icons.Default.Warning, txt = "Spam")
-            ItemMenu(Icone = Icons.Default.Build, txt = "Preferencias")
+            HeaderMenu(navController = navController, usuarioLogado = usuarioLogado)
+           ItemMenu(Icone = Icons.Default.Person, txt = "Meu Perfil",navController.navigate("perfil/{$usuarioLogado"))
+            ItemMenu(Icone = Icons.Default.Home, txt = "Inbox", funcao = navController.navigate("inbox/${usuarioLogado}"))
+            ItemMenu(Icone = Icons.Default.Email, txt = "Enviados", funcao = navController.navigate("enviados/{$usuarioLogado}"))
+            ItemMenu(Icone = Icons.Default.Close, txt = "Excluídos", funcao = navController.navigate("excluidos/{$usuarioLogado}"))
+            ItemMenu(Icone = Icons.Default.Delete, txt = "Spam", funcao = navController.navigate("spam/${usuarioLogado}"))
+            ItemMenu(Icone = Icons.Default.DateRange, txt = "Calendário", funcao = navController.navigate("eventos/${usuarioLogado}"))
+
         }
 
-        BtnMenu()
+        BtnMenu(navController,usuarioLogado)
     }
 }
 
@@ -46,6 +46,6 @@ fun Menu(navController: NavController) {
 private fun MenuPreview() {
     HermesTheme {
         var navController = rememberNavController()
-        Menu(navController = navController)
+        Menu(navController = navController,"")
     }
 }

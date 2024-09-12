@@ -21,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Models.Usuario
 import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
+import nr.com.fiap.hermes.ThemeManager
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,7 +29,8 @@ import retrofit2.Response
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Perfil(usuarioLogado:String,navController: NavController) {
+fun Perfil(usuarioLogado:String,navController: NavController,themeManager: ThemeManager) {
+    val isDarkTheme = themeManager.isDarkTheme
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Header(txt = "Perfil")
         Text(text = usuarioLogado,
@@ -68,10 +70,3 @@ fun Perfil(usuarioLogado:String,navController: NavController) {
 
 
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(showSystemUi = true)
-@Composable
-private fun PerfilPreview() {
-    HermesTheme {
-        Perfil(usuarioLogado = "usuario", navController = rememberNavController()) }
-}

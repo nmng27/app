@@ -36,10 +36,10 @@ import nr.com.fiap.hermes.R
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @Composable
-fun ItemMenu(Icone:ImageVector,txt:String) {
+fun ItemMenu(Icone:ImageVector,txt:String,funcao:Unit) {
     Column {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { funcao }) {
                 Icon(imageVector = Icone, contentDescription = "pessoa",tint = Color(R.drawable.designer))
             }
             Text(text = txt, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, color = Color(0xfff8B4513))

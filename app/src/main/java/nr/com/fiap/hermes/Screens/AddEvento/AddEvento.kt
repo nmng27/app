@@ -13,6 +13,7 @@ import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Comps.Input.Input
 import nr.com.fiap.hermes.Models.Evento
 import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
+import nr.com.fiap.hermes.ThemeManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,7 +21,9 @@ import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AddEvento(usuarioLogado: String, navController: NavController) {
+fun AddEvento(usuarioLogado: String, navController: NavController,themeManager: ThemeManager) {
+    val isDarkTheme = themeManager.isDarkTheme
+
     var nome by remember {
         mutableStateOf("")
     }

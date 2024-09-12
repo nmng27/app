@@ -12,11 +12,14 @@ import androidx.compose.ui.Modifier
 import nr.com.fiap.hermes.Comps.CardsEventos.CardsEventos
 import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Models.Evento
+import nr.com.fiap.hermes.ThemeManager
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Eventos() {
+fun Eventos(themeManager: ThemeManager) {
     Column {
+        val isDarkTheme = themeManager.isDarkTheme
+
         var listaEventos:List<Evento> by remember {
             mutableStateOf(listOf<Evento>())
         }

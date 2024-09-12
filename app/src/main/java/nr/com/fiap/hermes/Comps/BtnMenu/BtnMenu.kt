@@ -12,9 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
-fun BtnMenu() {
+fun BtnMenu(navController: NavController,usuarioLogado:String) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -22,7 +23,7 @@ fun BtnMenu() {
         horizontalAlignment = Alignment.End
     ) {
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { navController.navigate("novoEmail/{$usuarioLogado}") },
             colors = ButtonDefaults.buttonColors(Color(0xfff8B4513)),
         ) {
             Text(text = "Novo Email", fontWeight = FontWeight.Bold)

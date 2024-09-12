@@ -26,13 +26,14 @@ import nr.com.fiap.hermes.Comps.CardsEventos.CardsEventos
 import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Models.Evento
 import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
+import nr.com.fiap.hermes.ThemeManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ExibirEventos(id: Int, navController: NavController) {
+fun ExibirEventos(id: Int, navController: NavController,themeManager: ThemeManager) {
     // Define the state for event details
     var evento by remember { mutableStateOf<Evento?>(null) }
     var isLoading by remember { mutableStateOf(true) }
@@ -50,6 +51,7 @@ fun ExibirEventos(id: Int, navController: NavController) {
     }
 
     //val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
+    val isDarkTheme = themeManager.isDarkTheme
 
     Column(
         modifier = Modifier

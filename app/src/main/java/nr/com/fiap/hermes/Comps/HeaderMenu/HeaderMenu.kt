@@ -21,11 +21,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import nr.com.fiap.hermes.R
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @Composable
-fun HeaderMenu() {
+fun HeaderMenu(usuarioLogado:String,navController: NavController) {
     Column {
         Row(
             modifier = Modifier
@@ -45,7 +46,7 @@ fun HeaderMenu() {
                 color = Color(0xfff8B4513),
                 fontWeight = FontWeight.Bold
             )
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { navController.navigate("inbox/{$usuarioLogado}") }) {
                 Icon(
                     imageVector = Icons.Default.Close,
                     contentDescription = "",
@@ -55,10 +56,3 @@ fun HeaderMenu() {
         }
 }}
 
-@Preview
-@Composable
-private fun HeaderMenuPreview() {
-    HermesTheme {
-        HeaderMenu()
-    }
-}
