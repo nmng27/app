@@ -55,7 +55,7 @@ fun logar(email: String, senha: String, navController: NavController) {
             if (response.isSuccessful) {
                 val usuario = response.body()
                 // Aqui você pode verificar mais dados se necessário
-                navController.navigate("inbox")
+                navController.navigate("inbox/{$email}")
             } else {
                 // Tratar casos de falha na resposta (e.g. credenciais inválidas)
                 Log.e("Login", "Falha ao logar: ${response.errorBody()?.string()}")

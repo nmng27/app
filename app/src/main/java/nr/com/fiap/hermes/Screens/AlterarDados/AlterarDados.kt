@@ -23,10 +23,26 @@ import nr.com.fiap.hermes.Comps.Input.Input
 import nr.com.fiap.hermes.Models.Usuario
 import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
 import nr.com.fiap.hermes.ui.theme.HermesTheme
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AlterarDados(navController: NavController,cor_pref:Boolean,id:Int) {
+    fun atualizarUsuario(usuario: Usuario,navController: NavController,usuarioLogado:String){
+        var call = RetrofitFactory().getUsuarioService().atualizar(usuario,usuario.id)
+        call.enqueue(object : Callback<Usuario>{
+            override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
+                var usuario = response.body()
+                navController.navigate("/inbox/{$usuarioLogado}")
+            }
+
+            override fun onFailure(call: Call<Usuario>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
     var nome by remember {
         mutableStateOf("")
     }
@@ -43,41 +59,48 @@ fun AlterarDados(navController: NavController,cor_pref:Boolean,id:Int) {
     var senha by remember {
         mutableStateOf("")
     }
-    val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
+
     Column(modifier = Modifier
         .fillMaxSize()
-        .background(corPrimaria), horizontalAlignment = Alignment.CenterHorizontally) {
+        .background(Color.White), horizontalAlignment = Alignment.CenterHorizontally) {
         Header(txt = "Alterar Dados")
-        Input(valor = nome,
-            funcao = {nome = it},
+        Input(
+            valor = nome,
+            funcao = { nome = it },
             placeholder = "Digite o seu nome",
             label = "Nome",
-            keyBoard = KeyboardType.Text)
-        Input(valor = email,
-            funcao = {email = it},
+            keyBoard = KeyboardType.Text
+        )
+        Input(
+            valor = email,
+            funcao = { email = it },
             placeholder = "Digite o seu email",
             label = "Email",
-            keyBoard = KeyboardType.Email)
-        Input(valor = telefone,
-            funcao = {telefone = it},
+            keyBoard = KeyboardType.Email
+        )
+        Input(
+            valor = telefone,
+            funcao = { telefone = it },
             placeholder = "Digite o seu telefone",
             label = "Telefone",
-            keyBoard = KeyboardType.Phone)
-        Input(valor = endereco,
-            funcao = {endereco = it},
+            keyBoard = KeyboardType.Phone
+        )
+        Input(
+            valor = endereco,
+            funcao = { endereco = it },
             placeholder = "Digite o seu endereço",
             label = "Endereço",
-            keyBoard = KeyboardType.Text)
-        Input(valor = senha,
-            funcao = {senha = it},
+            keyBoard = KeyboardType.Text
+        )
+        Input(
+            valor = senha,
+            funcao = { senha = it },
             placeholder = "Digite a sua senha",
             label = "Senha",
-            keyBoard = KeyboardType.Password)
-        Botao(funcao = {
-            var novoUsuario = Usuario(id,nome,email,
-                telefone,endereco,senha)
-            RetrofitFactory().getUsuarioService().atualizar(novoUsuario,id)
-            navController.navigate("/inbox") }, txt = "Alterar")
+            keyBoard = KeyboardType.Password
+        )
+        Botao(funcao = { atualizarUsuario(Usuario(0,nome,email,telefone,endereco,senha),navController,email)
+                       navController.navigate("/inbox/${email}")}, txt = "Entrar")
     }
-}
+    }
 

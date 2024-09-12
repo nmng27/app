@@ -58,7 +58,7 @@ fun cadastrar(usuario: Usuario, navController: NavController, preferencias: Pref
                 val novoUsuario = response.body()
 
                 // Navegar para "inbox" após sucesso no cadastro do usuário
-                navController.navigate("inbox")
+                navController.navigate("/inbox/{${usuario.email}}")
 
                 // Adicionar preferências associadas ao usuário recém-cadastrado
                 val preferenciaCall = RetrofitFactory().getPreferenciaService().add(preferencias)

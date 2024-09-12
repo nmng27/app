@@ -14,7 +14,7 @@ interface UsuarioService {
     fun cadastrar(@Body usuario: Usuario): Call<Usuario>
 
     @PUT("/usuario/upd/{id}")
-    fun atualizar(@Body usuario: Usuario, @Path("id") id: Int): Call<Void>
+    fun atualizar(@Body usuario: Usuario, @Path("id") id: Int): Call<Usuario>
 
     @DELETE("/usuario/del/{id}")
     fun excluir(@Path("id") id: Int): Call<Void>
@@ -24,5 +24,5 @@ interface UsuarioService {
 
 
     @GET("/usuario/credenciais/{email}")
-    fun credenciais(@Path("email") email: String):Usuario
+    fun credenciais(@Path("email") email: String):Call<Usuario>
 }

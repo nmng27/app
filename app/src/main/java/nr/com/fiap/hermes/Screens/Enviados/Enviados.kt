@@ -1,20 +1,14 @@
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import nr.com.fiap.hermes.Comps.Cards.Cards
 import nr.com.fiap.hermes.Comps.Header.Header
@@ -24,17 +18,16 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Enviados(navController: NavController, usuarioiLogado: String) {
+fun Enviados(navController: NavController,usuarioId:Int) {
     var listaEmails:List<Email> by remember {
         mutableStateOf(listOf<Email>())
     }
-    val credenciais = RetrofitFactory().getUsuarioService().credenciais(usuarioiLogado)
-    val call = RetrofitFactory().getEmailService().listarPorCategoria("Enviados",credenciais.id)
+
+    val call = RetrofitFactory().getEmailService().listarPorCategoria("Enviados",usuarioId)
     call.enqueue(
-        object : Callback<List<Email>>{
+        object : Callback<List<Email>> {
             override fun onResponse(call: Call<List<Email>>, response: Response<List<Email>>) {
                 listaEmails = response.body()!!
             }
@@ -45,7 +38,7 @@ fun Enviados(navController: NavController, usuarioiLogado: String) {
         }
     )
     Column {
-        Header(txt = "Enviados")
+        Header(txt = "Inbox")
         LazyColumn() {
             items(listaEmails
             ){

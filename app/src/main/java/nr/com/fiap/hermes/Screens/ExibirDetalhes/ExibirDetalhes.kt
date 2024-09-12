@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
@@ -25,62 +25,128 @@ import androidx.navigation.compose.rememberNavController
 import nr.com.fiap.hermes.Comps.Botao.Botao
 import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Models.Email
-import nr.com.fiap.hermes.ui.theme.HermesTheme
+import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ExibirDetalhes(email: Email, navController: NavController, cor_pref: Boolean) {
+fun ExibirDetalhes(id: Int, navController: NavController,usuarioLogado:String) {
+    // Define the state for email details
+    var credenciais = RetrofitFactory().getUsuarioService().credenciais(usuarioLogado)
+    var email by remember { mutableStateOf<Email?>(null) }
+    var isLoading by remember { mutableStateOf(true) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    // Fetch email details
+    LaunchedEffect(id) {
+        buscarDetalhes(id, onSuccess = { fetchedEmail ->
+            email = fetchedEmail
+            isLoading = false
+        }, onError = { error ->
+            errorMessage = error
+            isLoading = false
+        })
+    }
+
+    //val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(corPrimaria),
+                .background(Color.White),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column {
                 Header(txt = "Details")
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text(
-                        text = email.remetente,
-                        fontSize = 30.sp,
-                        fontFamily = FontFamily.Serif,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xfff8B4513)
-                    )
-                    Spacer(modifier = Modifier.height(5.dp))
-                    Text(
-                        text = email.assunto,
-                        fontSize = 25.sp,
-                        fontFamily = FontFamily.Serif,
-                        color = Color(0xfff8B4513)
-                    )
-                    Spacer(modifier = Modifier.height(5.dp))
-                    Text(text = email.corpo)
+                    if (isLoading) {
+                        Text("Loading...", fontSize = 20.sp)
+                    } else if (errorMessage != null) {
+                        Text("Error: $errorMessage", fontSize = 20.sp, color = Color.Red)
+                    } else {
+                        email?.let {
+                            Text(
+                                text = it.assunto,
+                                fontSize = 25.sp,
+                                fontFamily = FontFamily.Serif,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xfff8B4513)
+                            )
+                            Spacer(modifier = Modifier.height(5.dp))
+                            Text(text = it.corpo)
+                        }
+                    }
                 }
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Botao(funcao = { /* TODO */ }, txt = "Responder")
-                Botao(funcao = { /* TODO */ }, txt = "Favoritar")
-                Botao(funcao = { /* TODO */ }, txt = "Excluir")
+                Botao(funcao = { navController.navigate("/responder") }, txt = "Responder")
+                Botao(funcao = {
+                    email?.let { favoritar(it.id, navController) }
+                }, txt = "Favoritar")
+                Botao(funcao = {
+                    email?.let { excluir(it.id, navController) }
+                }, txt = "Excluir")
             }
         }
     }
 }
 
-var email = Email(1, 1, "teste", "teste", "inbox", "teste", "teste")
+fun buscarDetalhes(id: Int, onSuccess: (Email) -> Unit, onError: (String) -> Unit) {
+    val call = RetrofitFactory().getEmailService().buscarId(id)
+    call.enqueue(object : Callback<Email> {
+        override fun onResponse(call: Call<Email>, response: Response<Email>) {
+            if (response.isSuccessful) {
+                response.body()?.let { onSuccess(it) }
+            } else {
+                onError("Error ${response.code()}: ${response.message()}")
+            }
+        }
 
-@Preview(showSystemUi = true)
-@Composable
-private fun ExibirDetalhesPreview() {
-    HermesTheme {
-        val navController = rememberNavController()
-        ExibirDetalhes(email = email, navController = navController, cor_pref = true)
-    }
+        override fun onFailure(call: Call<Email>, t: Throwable) {
+            onError(t.message ?: "Unknown error")
+        }
+    })
+}
+
+fun excluir(id: Int, navController: NavController) {
+    val call = RetrofitFactory().getEmailService().deletar(id)
+    call.enqueue(object : Callback<Email> {
+        override fun onResponse(call: Call<Email>, response: Response<Email>) {
+            if (response.isSuccessful) {
+                navController.navigate("inbox")
+            } else {
+                // Handle error
+            }
+        }
+
+        override fun onFailure(call: Call<Email>, t: Throwable) {
+            // Handle error
+        }
+    })
+}
+
+fun favoritar(id: Int, navController: NavController) {
+    val call = RetrofitFactory().getEmailService().favoritar(id)
+    call.enqueue(object : Callback<Email> {
+        override fun onResponse(call: Call<Email>, response: Response<Email>) {
+            if (response.isSuccessful) {
+                navController.navigate("inbox")
+            } else {
+                // Handle error
+            }
+        }
+
+        override fun onFailure(call: Call<Email>, t: Throwable) {
+            // Handle error
+        }
+    })
 }

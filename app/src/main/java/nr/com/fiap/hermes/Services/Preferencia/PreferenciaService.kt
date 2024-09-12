@@ -13,14 +13,14 @@ interface PreferenciaService {
     fun add(preferencias: Preferencias): Call<Preferencias>
 
     @PUT("/preferencias/atualizar/{id}")
-    fun upd(@Path("id") id:Int, preferencias: Preferencias):Call<Void>
+    fun upd(@Path("id") id: Int, preferencias: Preferencias): Call<Preferencias>
 
     @DELETE("/preferencias/deletar/{id}")
-    fun delete(@Path("id") id:Int):Call<Void>
+    fun delete(@Path("id") id: Int): Call<Void>
 
     @GET("/preferencias/buscarPorId/{id}")
-    fun buscarId(@Path("id")id: Int):Call<Preferencias>
+    fun buscarPorId(@Path("id") id: Int): Call<Preferencias>
 
     @GET("/preferencias/listarPorUsuarioId/{usuarioId}")
-    fun listarPorUsuarioId(@Path("usuarioId") usuarioId:Int):Preferencias
+    fun listarPorUsuarioId(@Path("usuarioId") usuarioId: Int): Call<List<Preferencias>>
 }

@@ -1,14 +1,12 @@
-package nr.com.fiap.hermes.Screens.Perfil
-
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,17 +22,16 @@ import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Models.Usuario
 import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
 import nr.com.fiap.hermes.ui.theme.HermesTheme
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Perfil(usuario: Usuario,navController: NavController,usuarioLogado:String) {
-    val credenciais = RetrofitFactory().getUsuarioService().credenciais(usuarioLogado)
-    val prefs = RetrofitFactory().getPreferenciaService().listarPorUsuarioId(credenciais.id)
-    val corPrimaria = if (prefs.tema == "modo claro") Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
-    Column(modifier = Modifier.fillMaxSize()
-        .background(corPrimaria), horizontalAlignment = Alignment.CenterHorizontally) {
-        Header(txt = "Meu Perfil")
-        Text(text = usuario.nome,
+fun Perfil(usuarioLogado:String,navController: NavController) {
+    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Header(txt = "Perfil")
+        Text(text = usuarioLogado,
             fontSize = 30.sp,
             fontFamily = FontFamily.Serif,
             color = Color(0xfff8B4513),
@@ -47,7 +44,7 @@ fun Perfil(usuario: Usuario,navController: NavController,usuarioLogado:String) {
                 fontSize = 20.sp,
                 color = Color(0xfff8B4513),
                 textDecoration = TextDecoration.Underline
-                )
+            )
         }
         TextButton(onClick = { navController.navigate("/login")}) {
             Text(text = "Excluir Conta",
@@ -65,21 +62,16 @@ fun Perfil(usuario: Usuario,navController: NavController,usuarioLogado:String) {
                 textDecoration = TextDecoration.Underline
             )
         }
-
     }
+
 }
+
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview(showSystemUi = true)
 @Composable
 private fun PerfilPreview() {
     HermesTheme {
-        var navController = rememberNavController()
-        Perfil(Usuario(1,
-            "Nicholas Mangussi",
-            "mangussinicholas@hermes.com",
-            "t1",
-            "e1",
-            "pwd"),navController,"true")
-    }
+        Perfil(usuarioLogado = "usuario", navController = rememberNavController()) }
 }

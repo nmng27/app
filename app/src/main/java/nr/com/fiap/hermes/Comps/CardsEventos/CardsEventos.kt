@@ -32,17 +32,7 @@ fun CardsEventos(eveto:Evento) {
         .padding(16.dp)
         .height(150.dp), colors = CardDefaults.cardColors(Color(0xfff8B4513))
     ) {
-        Row(modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End) {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.Edit, contentDescription = "", tint = Color.White)
 
-            }
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.Delete, contentDescription = "", tint = Color.White)
-            }
-
-        }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
