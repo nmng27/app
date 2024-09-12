@@ -1,5 +1,6 @@
 package nr.com.fiap.hermes.Screens.Cadastro
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -47,6 +48,45 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Call
 import androidx.compose.ui.platform.LocalContext
+import nr.com.fiap.hermes.Models.Preferencias
+
+fun cadastrar(usuario: Usuario, navController: NavController, preferencias: Preferencias) {
+    val call = RetrofitFactory().getUsuarioService().cadastrar(usuario)
+    call.enqueue(object : Callback<Usuario> {
+        override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
+            if (response.isSuccessful) {
+                val novoUsuario = response.body()
+
+                // Navegar para "inbox" após sucesso no cadastro do usuário
+                navController.navigate("inbox")
+
+                // Adicionar preferências associadas ao usuário recém-cadastrado
+                val preferenciaCall = RetrofitFactory().getPreferenciaService().add(preferencias)
+                preferenciaCall.enqueue(object : Callback<Preferencias> {
+                    override fun onResponse(call: Call<Preferencias>, response: Response<Preferencias>) {
+                        if (response.isSuccessful) {
+                            Log.d("Cadastro", "Preferências adicionadas com sucesso.")
+                        } else {
+                            Log.e("Cadastro", "Erro ao adicionar preferências: ${response.errorBody()?.string()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Preferencias>, t: Throwable) {
+                        Log.e("Cadastro", "Erro ao adicionar preferências: ${t.message}")
+                    }
+                })
+            } else {
+                Log.e("Cadastro", "Erro no cadastro do usuário: ${response.errorBody()?.string()}")
+            }
+        }
+
+        override fun onFailure(call: Call<Usuario>, t: Throwable) {
+            Log.e("Cadastro", "Erro ao cadastrar usuário: ${t.message}")
+        }
+    })
+}
+
+
 
 
 @Composable
@@ -75,24 +115,7 @@ fun Cadastro(navController: NavController) {
         val usuario = Usuario(0,nome,email,telefone,endereco,senha)
         return usuario
     }
-    fun cadastrarUsuario(usuario: Usuario) {
-        val retrofitFactory = RetrofitFactory()
-        val usuarioService = retrofitFactory.getUsuarioService()
 
-        usuarioService.cadastrar(usuario).enqueue(object : Callback<Usuario> {
-            override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
-                if (response.isSuccessful) {
-
-                    navController.navigate("inbox")
-                }
-            }
-
-
-            override fun onFailure(call: Call<Usuario>, t: Throwable) {
-                Toast.makeText(context, "Falha na requisição: ${t.message}", Toast.LENGTH_LONG).show()
-            }
-        })
-    }
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         Image(painter = painterResource(id = R.drawable.designer),
             contentDescription = "", modifier = Modifier.size(150.dp))
@@ -130,6 +153,11 @@ fun Cadastro(navController: NavController) {
             label = "Senha",
             keyBoard = KeyboardType.Password)
         Botao(funcao = {
+                cadastrar(
+                    navController = navController,
+                    usuario = Usuario(0,nome,email,telefone,endereco,senha),
+                    preferencias = Preferencias(0,0,"modo claro")
+                )
 
 
         }, txt = "Entrar")

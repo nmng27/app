@@ -22,12 +22,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import nr.com.fiap.hermes.Comps.Header.Header
 import nr.com.fiap.hermes.Models.Usuario
+import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Perfil(usuario: Usuario,navController: NavController,cor_pref:Boolean) {
-    val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
+fun Perfil(usuario: Usuario,navController: NavController,usuarioLogado:String) {
+    val credenciais = RetrofitFactory().getUsuarioService().credenciais(usuarioLogado)
+    val prefs = RetrofitFactory().getPreferenciaService().listarPorUsuarioId(credenciais.id)
+    val corPrimaria = if (prefs.tema == "modo claro") Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
     Column(modifier = Modifier.fillMaxSize()
         .background(corPrimaria), horizontalAlignment = Alignment.CenterHorizontally) {
         Header(txt = "Meu Perfil")
@@ -77,6 +80,6 @@ private fun PerfilPreview() {
             "mangussinicholas@hermes.com",
             "t1",
             "e1",
-            "pwd"),navController,true)
+            "pwd"),navController,"true")
     }
 }

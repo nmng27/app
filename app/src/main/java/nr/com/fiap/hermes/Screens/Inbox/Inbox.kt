@@ -1,6 +1,3 @@
-package nr.com.fiap.hermes.Screens.Inbox
-
-import EmailViewModel
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
@@ -10,36 +7,53 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import nr.com.fiap.hermes.Comps.Cards.Cards
 import nr.com.fiap.hermes.Comps.Header.Header
-import nr.com.fiap.hermes.Comps.ListaEmails.ListaEmails
-import nr.com.fiap.hermes.ui.theme.HermesTheme
+import nr.com.fiap.hermes.Models.Email
+import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Inbox(navController: NavController, cor_pref: Boolean) {
-    val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
-   val viewModel = EmailViewModel(0,"Inbox")
-    val emails = viewModel.emails
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(corPrimaria)
-    ) {
-        Header(txt = "Inbox")
-        LazyColumn {
-            items(emails){
-                    email ->
-                Column {
-                    Cards(email = email, funcao = {navController.navigate("exibirDetalhes")})
+fun Inbox(navController: NavController, usuarioiLogado: String) {
+    var listaEmails:List<Email> by remember {
+        mutableStateOf(listOf<Email>())
+    }
+    val credenciais = RetrofitFactory().getUsuarioService().credenciais(usuarioiLogado)
+    val call = RetrofitFactory().getEmailService().listarPorCategoria("Inbox",credenciais.id)
+    call.enqueue(
+        object : Callback<List<Email>>{
+            override fun onResponse(call: Call<List<Email>>, response: Response<List<Email>>) {
+                listaEmails = response.body()!!
+            }
+
+            override fun onFailure(call: Call<List<Email>>, t: Throwable) {
+                TODO("Not yet implemented")
             }
         }
+    )
+    Column {
+        Header(txt = "Inbox")
+        LazyColumn() {
+            items(listaEmails
+            ){
+                Cards(email = it, funcao = {navController.navigate("detalhes")})
+        }
 
+            
+        }
     }
-}}
 
+}

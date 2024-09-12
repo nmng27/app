@@ -36,7 +36,8 @@ import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Preferencia(usuarioId:Int,id:Int) {
+fun Preferencia(usuarioLogado:String,id:Int) {
+    var credenciais = RetrofitFactory().getUsuarioService().credenciais(usuarioLogado)
     var preferencia by remember { mutableStateOf(0) }
     var valor by remember { mutableStateOf(false) }
     var tema by remember {
@@ -71,7 +72,7 @@ fun Preferencia(usuarioId:Int,id:Int) {
             Radio(txt = "Modo Claro", funcao = {
                 preferencia = 0
                 valor = true
-                RetrofitFactory().getPreferenciaService().upd(id, Preferencias(id,usuarioId,tema))
+                RetrofitFactory().getPreferenciaService().upd(credenciais.id, Preferencias(id,credenciais.id,tema))
             }, valor = preferencia == 0)
 
             Radio(txt = "Modo Escuro", funcao = {
@@ -131,6 +132,6 @@ fun Preferencia(usuarioId:Int,id:Int) {
 @Composable
 private fun PreferenciaPreview() {
     HermesTheme {
-        Preferencia(1,1)
+        Preferencia("1",1)
     }
 }

@@ -28,11 +28,36 @@ import nr.com.fiap.hermes.Comps.TextArea.TextArea
 import nr.com.fiap.hermes.Models.Email
 import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
 import nr.com.fiap.hermes.ui.theme.HermesTheme
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
+fun enviarEmail(email: Email) {
+    val call = RetrofitFactory().getEmailService().enviar(email)
+    call.enqueue(object : Callback<Email> {
+        override fun onResponse(call: Call<Email>, response: Response<Email>) {
+            if (response.isSuccessful) {
+                // A resposta foi bem-sucedida
+                val emailResposta = response.body()
+
+            }
+        }
+
+        override fun onFailure(call: Call<Email>, t: Throwable) {
+
+        }
+    })
+}
+
+
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun NovoEmail(navController: NavController,cor_pref:Boolean,usuarioId:Int) {
-    var destinatario by remember {
+fun NovoEmail(navController: NavController,cor_pref:Boolean,usuarioLogado:String) {
+    val credenciais = RetrofitFactory().getUsuarioService().credenciais(usuarioLogado)
+    var destinatario = credenciais.email
+    var remetente by remember {
         mutableStateOf("")
     }
     var assunto by remember {
@@ -41,19 +66,20 @@ fun NovoEmail(navController: NavController,cor_pref:Boolean,usuarioId:Int) {
     var corpo by remember {
         mutableStateOf("")
     }
-    val viewmodel = EmailViewModel(usuarioId,"")
+    val viewmodel = EmailViewModel(credenciais.id,"Enviados")
     val email = viewmodel.emails
     val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
 
-    Column(modifier = Modifier.fillMaxSize()
+    Column(modifier = Modifier
+        .fillMaxSize()
         .background(corPrimaria),
         horizontalAlignment = Alignment.CenterHorizontally) {
 
         Header(txt = "Novo Email")
-        Input(valor = destinatario,
-            funcao = {destinatario = it},
-            placeholder = "Destinatário",
-            label = "Destinatário",
+        Input(valor = remetente,
+            funcao = {remetente = it},
+            placeholder = "Digite para quem deseja enviar o email.",
+            label = "Remetente",
             keyBoard = KeyboardType.Email)
         Input(valor = assunto,
             funcao = {assunto = it},
@@ -66,16 +92,7 @@ fun NovoEmail(navController: NavController,cor_pref:Boolean,usuarioId:Int) {
             placeholder = "Digite a mensagem",
             keyBoard = KeyboardType.Text)
         Botao(funcao = {
-            val usuarioService = RetrofitFactory().getEmailService()
-            usuarioService.enviar(Email(
-                id = 0,
-                destinatario = destinatario,
-                remetente = "",
-                assunto = assunto,
-                corpo = corpo,
-                categoria = "Enviados",
-                usuarioId = usuarioId
-            ))
+            enviarEmail(Email(0,0,remetente,usuarioLogado,"Enviados",assunto,corpo))
             navController.navigate("inbox")
         }, txt = "Enviar")
 

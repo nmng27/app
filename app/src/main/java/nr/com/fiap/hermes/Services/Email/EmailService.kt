@@ -10,15 +10,15 @@ import retrofit2.http.Path
 interface EmailService {
 
     @POST("/emails/enviar")
-    fun enviar(email: Email): Call<Usuario>
-
+    fun enviar(email: Email): Call<Email>
 
     @GET("/emails/listarPorUsuarioId/{usuarioId}")
-    fun listarPorUsuarioId(@Path("usuarioId") usuarioId:Int):List<Email>
+    fun listarPorUsuarioId(@Path("usuarioId") usuarioId: Int): Call<List<Email>>
 
     @GET("/emails/listarPorCategoria/{categoria}/{usuarioId}")
-    fun listarPorCategoria(@Path("categoria") categoria:String,@Path("usuarioId") usuario_id: Int):List<Email>
+    fun listarPorCategoria(@Path("categoria") categoria: String, @Path("usuarioId") usuarioId: Int): Call<List<Email>>
 
     @GET("/emails/buscarId/{id}")
-    fun buscarId(@Path("id") id:Int):Call<Usuario>
+    fun buscarId(@Path("id") id: Int): Call<Usuario>
 }
+

@@ -1,5 +1,6 @@
 package nr.com.fiap.hermes.Screens.Login
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -42,6 +43,33 @@ import nr.com.fiap.hermes.Models.Usuario
 import nr.com.fiap.hermes.R
 import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
 import nr.com.fiap.hermes.ui.theme.HermesTheme
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
+
+fun logar(email: String, senha: String, navController: NavController) {
+    val call = RetrofitFactory().getUsuarioService().login(email, senha)
+    call.enqueue(object : Callback<Usuario> {
+        override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
+            if (response.isSuccessful) {
+                val usuario = response.body()
+                // Aqui você pode verificar mais dados se necessário
+                navController.navigate("inbox")
+            } else {
+                // Tratar casos de falha na resposta (e.g. credenciais inválidas)
+                Log.e("Login", "Falha ao logar: ${response.errorBody()?.string()}")
+            }
+        }
+
+        override fun onFailure(call: Call<Usuario>, t: Throwable) {
+            // Tratar erro na comunicação (e.g. problema de conexão)
+            Log.e("Login", "Erro na chamada de login: ${t.message}")
+        }
+    })
+}
+
+
 
 @Composable
 fun Login(navController: NavController) {
@@ -72,7 +100,7 @@ fun Login(navController: NavController) {
             placeholder = "Digite a sua senha",
             label = "Senha",
             keyBoard = KeyboardType.Password)
-       Botao(funcao = { RetrofitFactory().getUsuarioService().login(email,senha) },
+       Botao(funcao = { logar(email,senha,navController) },
            txt = "Entrar")
         TextButton(onClick = {
             navController.navigate("/cadastro")

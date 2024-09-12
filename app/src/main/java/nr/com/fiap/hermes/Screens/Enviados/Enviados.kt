@@ -1,62 +1,59 @@
-package nr.com.fiap.hermes.Screens.Enviados;
-
-import EmailViewModel
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import nr.com.fiap.hermes.Comps.Cards.Cards
 import nr.com.fiap.hermes.Comps.Header.Header
-import nr.com.fiap.hermes.Comps.ListaEmails.ListaEmails
-import nr.com.fiap.hermes.R
-import nr.com.fiap.hermes.ui.theme.HermesTheme
+import nr.com.fiap.hermes.Models.Email
+import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Enviados(navController: NavController, cor_pref: Boolean) {
-    val corPrimaria = if (cor_pref) Color(0xFFFFFFFF) else Color(0xFF000000) // Branco ou Preto
-    val viewModel = EmailViewModel(0,"Enviados")
-    val emails = viewModel.emails
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(corPrimaria)
-    ) {
-        Header(txt = "Sends")
-        LazyColumn {
-            items(emails){
-                    email ->
-                Column {
-                    Cards(email = email, funcao = {navController.navigate("exibirDetalhes")})
-                }
+fun Enviados(navController: NavController, usuarioiLogado: String) {
+    var listaEmails:List<Email> by remember {
+        mutableStateOf(listOf<Email>())
+    }
+    val credenciais = RetrofitFactory().getUsuarioService().credenciais(usuarioiLogado)
+    val call = RetrofitFactory().getEmailService().listarPorCategoria("Enviados",credenciais.id)
+    call.enqueue(
+        object : Callback<List<Email>>{
+            override fun onResponse(call: Call<List<Email>>, response: Response<List<Email>>) {
+                listaEmails = response.body()!!
             }
 
+            override fun onFailure(call: Call<List<Email>>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
         }
-    }}
+    )
+    Column {
+        Header(txt = "Enviados")
+        LazyColumn() {
+            items(listaEmails
+            ){
+                Cards(email = it, funcao = {navController.navigate("detalhes")})
+            }
 
+
+        }
+    }
+
+}
