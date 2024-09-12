@@ -40,6 +40,7 @@ import nr.com.fiap.hermes.Comps.Botao.Botao
 import nr.com.fiap.hermes.Comps.Input.Input
 import nr.com.fiap.hermes.Models.Usuario
 import nr.com.fiap.hermes.R
+import nr.com.fiap.hermes.Services.RetrofitFactory.RetrofitFactory
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @Composable
@@ -50,6 +51,7 @@ fun Login(navController: NavController) {
     var senha by remember {
         mutableStateOf("")
     }
+
     
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         Image(painter = painterResource(id = R.drawable.designer), contentDescription = "Logo da Hermes", modifier = Modifier.size(200.dp))
@@ -70,9 +72,8 @@ fun Login(navController: NavController) {
             placeholder = "Digite a sua senha",
             label = "Senha",
             keyBoard = KeyboardType.Password)
-       Botao(funcao = {
-
-       }, txt = "Entrar")
+       Botao(funcao = { RetrofitFactory().getUsuarioService().login(email,senha) },
+           txt = "Entrar")
         TextButton(onClick = {
             navController.navigate("/cadastro")
         }) {

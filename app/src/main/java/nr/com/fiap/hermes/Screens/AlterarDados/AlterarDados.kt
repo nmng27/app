@@ -26,7 +26,7 @@ import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AlterarDados(navController: NavController,cor_pref:Boolean) {
+fun AlterarDados(navController: NavController,cor_pref:Boolean,id:Int) {
     var nome by remember {
         mutableStateOf("")
     }
@@ -76,15 +76,8 @@ fun AlterarDados(navController: NavController,cor_pref:Boolean) {
         Botao(funcao = {
             var novoUsuario = Usuario(id,nome,email,
                 telefone,endereco,senha)
+            RetrofitFactory().getUsuarioService().atualizar(novoUsuario,id)
             navController.navigate("/inbox") }, txt = "Alterar")
     }
 }
 
-@Preview(showSystemUi = true)
-@Composable
-private fun AlterarDadosPreview() {
-    HermesTheme {
-        var navController = rememberNavController()
-        AlterarDados(navController,true)
-    }
-}

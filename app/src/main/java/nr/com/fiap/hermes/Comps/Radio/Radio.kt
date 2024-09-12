@@ -14,20 +14,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import nr.com.fiap.hermes.ui.theme.HermesTheme
 
 @Composable
-fun Radio() {
+fun Radio(txt:String,funcao:()->Unit,valor:Boolean) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+
         verticalAlignment = Alignment.CenterVertically
     ) {
         RadioButton(
-            selected = true,
-            onClick = { /*TODO*/ },
+            selected = valor,
+            onClick = { funcao },
             colors = RadioButtonDefaults.colors(
                 selectedColor = Color(0xfff8B4513)
             )
         )
         Text(
-            text = "Light Mode",
+            text = txt,
             fontFamily = FontFamily.Serif,
             color = Color(0xfff8B4513)
         )
@@ -38,6 +38,6 @@ fun Radio() {
 @Composable
 private fun RadioPreview() { // Renomeando para evitar conflito
     HermesTheme {
-        Radio()
+        Radio("bla bla bn",{},false)
     }
 }

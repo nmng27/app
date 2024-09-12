@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitFactory {
-    private val URL = ""
+    private val URL = "localhost:5000/api"
     private val retrofit = Retrofit.
                         Builder()
                             .baseUrl(URL)

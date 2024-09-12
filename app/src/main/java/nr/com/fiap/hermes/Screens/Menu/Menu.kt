@@ -29,12 +29,12 @@ fun Menu(navController: NavController) {
         Column {
             HeaderMenu()
             ItemMenu(Icone = Icons.Default.Person, txt = "Meu Perfil")
-            ItemMenu(Icone = Icons.Default.DateRange, txt = "Meus Eventos")
+            ItemMenu(Icone = Icons.Default.DateRange, txt = "My Calendar")
             ItemMenu(Icone = Icons.Default.Home, txt = "Inbox")
             ItemMenu(Icone = Icons.Default.Email, txt = "Sends")
             ItemMenu(Icone = Icons.Default.Delete, txt = "Deleted")
-            ItemMenu(Icone = Icons.Default.Build, txt = "Spam")
-            Radio()
+            ItemMenu(Icone = Icons.Default.Warning, txt = "Spam")
+            ItemMenu(Icone = Icons.Default.Build, txt = "Preferencias")
         }
 
         BtnMenu()
